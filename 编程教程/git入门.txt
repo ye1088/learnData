@@ -1,0 +1,52 @@
+廖雪峰老师git教程：
+http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000
+
+
+git是一个版本控制系统，一般用于管理代码的版本信息；
+github是一个免费的远程git仓库，类似的仓库有csdn创建的conding.net，我们也可以搭建局域网的git仓库；
+
+主要的git命令
+
+git init
+在当前目录下创建一个本地的git库，该git库用于存放当前目录下的所有文件的版本等相关信息；
+该命令在当前目录下创建.git的隐藏文件夹，git库的所有内容都在这个隐藏文件夹中，如果删除就相当于删掉了当前的git库；
+
+git add
+常用的命令形式git add . /git add - -all （两个-之间没有空格），用于将当前这个文件夹中的所有内容加入git管理的索引中；相当于告诉git"我要添加这些文件进入版本控制”,然后git就会将这些文件与在已经纳入版本控制的文件进行对比；
+
+git status
+当前工作空间（也就是执行git init 的目录）的状态，也就是当前目录与已加入版本控制的文件进行对比结果；
+
+git commit
+提交已添加的文件，使用git add命令之后只是告诉git我想添加，并没有纳入版本控制；使用git commit才真正纳入版本控制，常用命令形式：git commit -m ‘heheda’；-m是提交当前版本的注释；
+
+git remote add origin git@remote
+添加远程库git@remote连接，命名为origin
+git remote
+查看所有添加的远程库
+
+git push origin master
+将当前分支（master）的内容推送到origin所代表的远程库
+
+git pull origin master
+将origin所代表的远程库下载到本地并合并到master分支
+
+git branch
+分支操作
+git branch dev，以当前分支（默认的分支为master）为蓝本创建一个名位dev的分支，该分支的内容与当前分支内容完全相同；
+git checkout dev
+切换到dev分支，此时工作空间的内容都属于dev分支，在该分支的add，commit，remote等操作都属于dev分支，并且原来其他分支不会被修改；
+当再次切换到原来的master分支时，工作空间的内容会恢复到切换dev时的状态；
+
+git merge
+用于合并两个分支；
+常用命令git merge dev，用于将dev分支的内容合并到当前分支
+
+.gitignore
+使git忽略当前目录下的特定文件，例如编译过程中生成中间文件，详细用法google一下吧；
+
+以上只是常用的git命令，用于了解和入门git，git更多的内容博卡，git标签（git tag），git commit详细用法及git提交之后撤销，可以在使用过程中google学习；
+
+
+
+
