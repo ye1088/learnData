@@ -1,0 +1,44 @@
+1、apktool
+apktool是apk逆向中的大神器，能够将一个apk中dex和资源部分完整的反编译出来，并能够进行回编译操作；
+apktool最先是由歪果仁搞出来的，目的是为了方便反编译整个apk，其官方网站（https://ibotpeaches.github.io/Apktool/），并且其整个代码是开源的（https://github.com/iBotPeaches/Apktool）。
+shakaapktool是rover12321大神搞出来的，他的github上的项目首页为https://github.com/rover12421/ShakaApktool，是一个中文汉化版的apktool（没有进行详细调研，两则具体关系怎样就不知道了），功能只会比原始的apktool更强大。
+apktool工具的核心是一个jar包，使用java命令行进行操作，主要有如下使用：
+java -jar apktool.jar d abc.apk -o abc
+java -jar apktool.jar b abc -o abc.apk
+d命令表示反编译，将abc.apk反编译出来，保存到abc目录
+b命令表示回编译，将abc目录中的内容进行编译，生成abc.apk
+具体的命令和参数可以使用--help获得；
+
+2、baksmali.jar/smali.jar
+baksmali和smali两个项目是哪来的没有研究过，这两个jar的功能是将dex文件进行反编译和回编译的：
+java -jar baksmali.jar -o abc  classes.dex
+java -jar smali.jar -o classes2.dex abc
+basksmali.jar是反编译，将classes.dex反编译出smali代码，放到abc目录中；
+smali.jar是回编译，将abc目录中的smali代码编译出dex，命名为classes2.dex;
+
+3、signapk.jar
+签名是Android系统的一个验证，修改了apk中的内容这个签名的校验就不能通过了，必须对这个包进行签名，签名不同的两个应用正常情况下是没办法覆盖安装的；
+修改玩一个apk之后，要像能够运行必须重新签名，这就是signapk.jar的勇武之地：
+java -jar signapk.jar testkey.x509.pem testkey.pk8 111.zip sign_apk.apk
+其中testkey.x509.pem和testkey.pk8 是签名文件，每个发布的应用开发者都有自己的签名文件，signapk.jar通过给定的两个签名文件，计算111.zip压缩包中的每个文件的签名信息，并将计算好签名信息的包命名为sign_apk.apk
+注：apk生成过程中使用jarsigner来进行签名的，jarsigner是jdk中提供的一个工具，详问google；
+
+4、dex2jar
+这个工具用于将dex转换成jar包，dex是Dalvik虚拟机的可执行文件，jar包为.class的压缩包，而.classs是jvm的可执行文件，两者都是通过java语言生成的，因此是存在转换关系的；
+dex2jar就是将dex转换为jar的工具，转换不可逆，转换的目的是为了使用jd-gui等工具方便的查看代码
+jd-gui：可以以java源码的方式查看jar文件的内容，并且支持反编译出java代码（具体能不能用就看运气了）
+jdb：是Android的dex文件逆向神奇，功能类似于dex2jar+jd-gui，但是更加强大，支持一定程度上反混淆；
+
+5、ApkIDE/Android Killer
+两大神奇，apkide又称apk改之理，是国内安卓逆向整合的工具，合并了apktool，unicode编码转换，jd-gui，dex2jar，signapk，zipalign等常用工具；
+
+6、ilasm.exe/ildasm.exe
+mono开源框架实现了将微软的dll跨平台，Android上也可以使用c#代码生成dll来执行自己的逻辑；
+ildasm.exe用于将dll反编译成il文件，这个il就类似于smali，是.net平台的汇编指令，且可以直接进行修改，修改完成之后使用ilasm.exe进行回编译即可；
+ildasm Assembly-CSharp.dll  /output=111.il
+ildasm支持界面和命令行两种方式，界面点一点就知道怎么搞了；如上命令将dll转换为111.il
+ilasm /dll 111.il  /output=111.dll
+将111.il转换为111.dll
+
+7、.Net Reflactor/ILSpy
+这两个工具是用于查看dll源码的，其中Reflactor是可以通过il指令修改dll的，ILSpy只能查看c#源码，并且两个工具都能将dll完全反编译出c#代码；

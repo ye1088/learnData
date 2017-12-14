@@ -1,0 +1,3 @@
+https://ci.appveyor.com/project/0xd4d/dnspy/branch/master/artifacts
+
+https://github.com/0xd4d/dnSpy
